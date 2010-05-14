@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test-package">
+
+	<import file="${basedir}/../virgo-build/common/common.xml"/>
+	<property name="test.staging.dir" value="${target.dir}/test-expanded"/>
+	<property name="test.package.dir" value="${test.staging.dir}/virgo-web-server"/>
+
+	<target name="test.do">
+		<delete dir="${test.staging.dir}" quiet="true"/>
+		<mkdir dir="${test.staging.dir}"/>
+		
+		<property name="server.stage.file" value="${test.staging.dir}/virgo-web-server-${org.eclipse.virgo.server}.zip"/>
+		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VWS/${org.eclipse.virgo.server}/virgo-web-server-${org.eclipse.virgo.server}.zip"
+                         dest="${server.stage.file}" verbose="true" usetimestamp="true"/>
+
+		<unzip src="${server.stage.file}" dest="${test.staging.dir}">
+			<regexpmapper from="(virgo-web-server-[^/]*/)(.*)" to="virgo-web-server/\2" />
+		</unzip>
+		
+		<chmod perm="755">
+			<fileset dir="${test.package.dir}/bin">
+				<include name="*.sh"/>
+			</fileset>
+		</chmod>
+		<antcall target="quality-common.test.do" />
+	</target>
+
+</project>

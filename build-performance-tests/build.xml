@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-performance-tests" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<path id="bundles">
+		<pathelement location="../org.eclipse.virgo.qa.performance"/>
+	</path>
+
+	<property file="${basedir}/../build.properties"/>
+	<property file="${basedir}/../build.versions"/>
+	<import file="${basedir}/../virgo-build/multi-bundle/default.xml"/>
+
+
+</project>
